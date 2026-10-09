@@ -6,7 +6,7 @@ account, generate a Rust SaaS project, download it, and help build and deploy it
 
 ## Give this to your agent
 
-> Set up ShipRust for me by following the directions at https://github.com/LVTD-LLC/shiprust-skills. Install the skills and configure MCP for the AI agent I am using; use the documented REST API if MCP is unavailable. Use SHIPRUST_API_KEY from my environment, or help me add it securely if it is missing. Verify my account and list the available project options. Do not create or delete projects yet. Never print or commit my API key.
+> Set up ShipRust for me by following the directions at https://github.com/LVTD-LLC/shiprust-skills. Install the native ShipRust plugin for the AI agent I am using. For Codex, first run `codex plugin marketplace add LVTD-LLC/shiprust-skills` and `codex plugin add shiprust-skills@shiprust`; use the standalone skill and MCP setup only if native plugins are unavailable, and explain why. Use the documented REST API if MCP is unavailable. Use SHIPRUST_API_KEY from my environment, or help me add it securely if it is missing. Verify my account and list the available project options. Do not create or delete projects yet. Never print or commit my API key.
 
 Agents: start with **[skills/shiprust/SKILL.md](skills/shiprust/SKILL.md)** and
 **[installation instructions](skills/shiprust/references/agents.md)**. If browsing
@@ -20,6 +20,22 @@ A key gives the agent your account's access. Never paste it into public chats.
 
 ## Install
 
+**Codex: install the native plugin first.** It bundles the skill, references,
+REST helper and MCP server; do not also install the standalone skill or register
+a duplicate MCP server.
+
+```sh
+codex plugin marketplace add LVTD-LLC/shiprust-skills
+codex plugin add shiprust-skills@shiprust
+codex plugin list --marketplace shiprust --json
+```
+
+Provide `SHIPRUST_API_KEY` securely to the Codex runtime, then start a fresh
+chat and verify the account. Installation alone does not configure credentials.
+If this Codex version does not support native plugins, explain that limitation
+and use the portable fallback below. Do not silently choose the fallback on a
+plugin-capable Codex installation.
+
 Claude Code's native plugin:
 
 ```text
@@ -27,7 +43,7 @@ Claude Code's native plugin:
 /plugin install shiprust-skills@shiprust
 ```
 
-Portable skill installation (Python 3.10+; no dependencies):
+Portable fallback for clients without native plugin support (Python 3.10+; no dependencies):
 
 ```sh
 git clone https://github.com/LVTD-LLC/shiprust-skills.git
@@ -36,7 +52,7 @@ python3 scripts/install.py --agent codex --dry-run
 python3 scripts/install.py --agent codex
 ```
 
-Then have the agent merge its matching MCP config and verify the connection.
+For this portable fallback, have the agent merge its matching MCP config and verify the connection.
 The installer deliberately does not overwrite configurations, collect keys,
 change approvals, or restart services. See the complete
 [client instructions](skills/shiprust/references/agents.md) for exact paths,
@@ -44,7 +60,7 @@ environment setup, native commands, verification and update behavior.
 
 | Client | Included path | MCP configuration |
 | --- | --- | --- |
-| Codex | `plugins/shiprust-skills/.codex-plugin/plugin.json` or portable Agent Skill | [Codex TOML](configs/codex.toml), [plugin MCP](configs/codex.mcp.json) |
+| Codex | Native plugin (default); portable skill only when plugins are unavailable | [Codex TOML](configs/codex.toml), [plugin MCP](configs/codex.mcp.json) |
 | Claude Code | Native plugin + self-hosted marketplace | [.mcp.json](.mcp.json) |
 | Cursor | `.cursor-plugin/plugin.json` or portable skill | [standalone config](configs/cursor.mcp.json), [plugin config](mcp.json) |
 | OpenClaw | Native skill pack, no JS extension needed | [managed MCP fragment](configs/openclaw.json) |

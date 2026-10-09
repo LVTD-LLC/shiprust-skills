@@ -1,6 +1,6 @@
 # Verification
 
-Version 1.0.1; vendor formats checked 2026-10-09. See the linked sources in
+Version 1.0.2; vendor formats checked 2026-10-09. See the linked sources in
 [agent installation](skills/shiprust/references/agents.md).
 
 Automated checks cover Python helper and installer behavior, manifest paths,
@@ -45,3 +45,18 @@ marketplace review/approval is not part of this repository publication.
   and then run the mandatory explicit probe after config loading.
 - The bundled REST helper completed account lookup, create, get, ZIP download,
   list and authorized delete against that local app. No production writes.
+
+## Native Codex onboarding checks
+
+- Codex CLI 0.162.0 installed the published `shiprust-skills@shiprust` plugin
+  (1.0.1) from the GitHub marketplace on macOS. The plugin inventory reported
+  it installed and enabled.
+- After removing the duplicate standalone skill/server, Codex app-server
+  discovery attributed all six ShipRust tools to `shiprust-skills@shiprust`
+  with `bearerToken` authentication. The runtime received the existing key
+  securely; no credential was added to repository files.
+- Separate read-only MCP and REST requests verified account access, options
+  and project listing. No hosted projects were created or deleted.
+- The 1.0.2 documentation and regenerated bundle passed all 17 toolkit tests.
+  On macOS, the test temporary directory used a physical path because the
+  installer intentionally rejects symlink ancestors (including `/var`).

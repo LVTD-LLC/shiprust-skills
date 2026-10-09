@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.2 — 2026-10-09
+
+- Make the native Codex plugin the default in the copyable setup prompt, README and agent instructions; require a specific reason for the standalone fallback.
+- Document plugin verification and migration from duplicate standalone installations while preserving credentials.
+
 ## 1.0.1 — 2026-10-09
 
 - Fix OpenClaw environment-reference setup: save without the pre-save probe, then require an explicit authenticated probe. Verified on OpenClaw 2026.9.6 using an isolated profile and disposable local app.
