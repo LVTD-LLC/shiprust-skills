@@ -28,7 +28,8 @@ marketplace review/approval is not part of this repository publication.
 - 17 Python tests passed; OpenAPI 3.1 validator passed.
 - Codex plugin validator passed, and the actual Codex CLI registered the local
   marketplace and installed `shiprust-skills@shiprust` in an isolated profile.
-- Claude Code marketplace validator passed.
+- Claude Code marketplace validator passed; actual isolated-profile marketplace
+  registration and plugin installation passed.
 - Live public options returned two hosts and five capabilities per telemetry
   provider; unauthenticated REST account and MCP requests both returned 401.
 - Other GUI clients and ChatGPT Actions import remain documentation-checked,
