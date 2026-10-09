@@ -1,6 +1,6 @@
 {
   "name": "shiprust-skills",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Set up ShipRust, generate and download Rust SaaS projects, and build and deploy them with your AI agent.",
   "author": {
     "name": "LVTD, LLC"

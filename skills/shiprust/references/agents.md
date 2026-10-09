@@ -154,9 +154,16 @@ needed. On versions with native HTTP MCP, use the scoped CLI (literal shell
 single quotes preserve the env reference):
 
 ```sh
-openclaw mcp add shiprust --url https://shiprust.com/mcp --transport streamable-http --header 'Authorization=Bearer ${SHIPRUST_API_KEY}'
+openclaw mcp add shiprust --url https://shiprust.com/mcp --transport streamable-http --header 'Authorization=Bearer ${SHIPRUST_API_KEY}' --no-probe
 openclaw mcp probe shiprust --json
 ```
+
+The separate probe is mandatory: on OpenClaw 2026.9.6, the add command's
+pre-save probe does not expand the environment reference. `--no-probe` saves
+that reference without testing it; the next command loads the config, resolves
+the environment and verifies authenticated discovery. This does not disable
+authentication or approve tools. If the subsequent probe fails, setup is not
+complete; use the REST fallback while diagnosing it.
 
 Inspect existing server first. Equivalent config fragment (`configs/openclaw.json`):
 
