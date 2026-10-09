@@ -1,0 +1,14 @@
+{
+  "name": "shiprust",
+  "owner": {
+    "name": "LVTD, LLC"
+  },
+  "plugins": [
+    {
+      "name": "shiprust-skills",
+      "source": "./",
+      "description": "Set up ShipRust, generate and download Rust SaaS projects, and build and deploy them with your AI agent."
+    }
+  ],
+  "description": "Official ShipRust skills and MCP integration for coding agents"
+}

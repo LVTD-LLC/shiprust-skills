@@ -1,0 +1,13 @@
+{
+  "mcp": {
+    "servers": {
+      "shiprust": {
+        "url": "https://shiprust.com/mcp",
+        "transport": "streamable-http",
+        "headers": {
+          "Authorization": "Bearer ${SHIPRUST_API_KEY}"
+        }
+      }
+    }
+  }
+}

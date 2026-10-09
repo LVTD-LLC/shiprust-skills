@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "shiprust": {
+      "url": "https://shiprust.com/mcp",
+      "headers": {
+        "Authorization": "Bearer ${env:SHIPRUST_API_KEY}"
+      }
+    }
+  }
+}

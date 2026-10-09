@@ -1,0 +1,3 @@
+[mcp_servers.shiprust]
+url = "https://shiprust.com/mcp"
+bearer_token_env_var = "SHIPRUST_API_KEY"
