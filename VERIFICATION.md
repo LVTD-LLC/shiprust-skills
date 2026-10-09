@@ -1,6 +1,6 @@
 # Verification
 
-Version 1.0.0; vendor formats checked 2026-10-09. See the linked sources in
+Version 1.0.1; vendor formats checked 2026-10-09. See the linked sources in
 [agent installation](skills/shiprust/references/agents.md).
 
 Automated checks cover Python helper and installer behavior, manifest paths,
@@ -34,3 +34,14 @@ marketplace review/approval is not part of this repository publication.
   provider; unauthenticated REST account and MCP requests both returned 401.
 - Other GUI clients and ChatGPT Actions import remain documentation-checked,
   not interactively tested here.
+
+## Additional 1.0.1 checks
+
+- Codex and Claude Code both installed from the published GitHub repository in
+  isolated profiles (not just a local checkout).
+- OpenClaw 2026.9.6 persisted an environment reference without the credential
+  and discovered ShipRust's authenticated tools against a disposable local app.
+  Its pre-save probe failed with the literal reference; save with `--no-probe`
+  and then run the mandatory explicit probe after config loading.
+- The bundled REST helper completed account lookup, create, get, ZIP download,
+  list and authorized delete against that local app. No production writes.
