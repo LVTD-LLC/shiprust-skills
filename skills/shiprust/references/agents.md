@@ -3,12 +3,15 @@
 Repository: https://github.com/LVTD-LLC/shiprust-skills
 
 First inspect the client's version, active profile and existing configuration.
-Install only for the agent the user is using. Never replace whole config files
-or change unrelated servers/approval policies. Use one install route, not both
+Install only for the agent the user is using. Prefer the native plugin when
+supported. For Codex, try the native commands below first; the portable
+installer is a fallback, not an equivalent default. Report the reason if you
+must fall back. Never replace whole config files or change unrelated
+servers/approval policies. Use one install route, not both
 plugin and duplicated standalone skills. Restart/reload only as the client
 requires, then verify `get_account`, `list_options` and `list_projects`.
 
-## Portable installation
+## Portable installation (fallback)
 
 ```sh
 git clone https://github.com/LVTD-LLC/shiprust-skills.git
@@ -71,18 +74,34 @@ Sources: [plugins](https://code.claude.com/docs/en/plugin-marketplaces),
 
 The native Codex bundle under `plugins/shiprust-skills/` has its own
 `.mcp.json` using `bearer_token_env_var`, avoiding Claude's different format.
-On Codex versions with plugin marketplace support:
+First check `codex plugin --help`. When the command is supported, install the
+native plugin (the default Codex route):
 
 ```sh
 codex plugin marketplace add LVTD-LLC/shiprust-skills
 codex plugin add shiprust-skills@shiprust
 ```
 
-Start a new thread after installing. The marketplace is maintained by ShipRust,
-not OpenAI's reviewed public directory. If plugins are unavailable, use the
-portable skill and native MCP route below (do not install both).
+Confirm `codex plugin list --marketplace shiprust --json` reports
+`shiprust-skills@shiprust` as installed and enabled. Supply `SHIPRUST_API_KEY`
+to the Codex runtime and start a fresh chat, then verify `get_account`,
+`list_options` and `list_projects` through the plugin's MCP server. Do not count
+the standalone skill or a separately registered MCP server as a plugin install.
 
-The portable installer plus native MCP registration is the explicit CLI path:
+The marketplace is maintained by ShipRust, not OpenAI's reviewed public
+directory. If the client lacks native plugin support or the marketplace is
+inaccessible,
+report the specific failure before using the portable skill and native MCP
+fallback below. Missing API credentials alone are not a reason to replace the
+plugin with the portable skill. Do not install both routes.
+
+When switching an existing standalone setup to the plugin, verify the plugin
+first, then remove only the duplicate ShipRust skill/server registration.
+Preserve customized files in a backup and keep the credential source intact.
+Do not delete unrelated skills, servers, or secret-store entries.
+
+Only when native plugins are unavailable, use the portable installer and
+separate MCP registration:
 
 ```sh
 python3 scripts/install.py --agent codex
