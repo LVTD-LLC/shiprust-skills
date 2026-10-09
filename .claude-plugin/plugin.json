@@ -1,0 +1,11 @@
+{
+  "name": "shiprust-skills",
+  "version": "1.0.0",
+  "description": "Set up ShipRust, generate and download Rust SaaS projects, and build and deploy them with your AI agent.",
+  "author": {
+    "name": "LVTD, LLC"
+  },
+  "homepage": "https://shiprust.com",
+  "repository": "https://github.com/LVTD-LLC/shiprust-skills",
+  "license": "MIT"
+}

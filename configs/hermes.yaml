@@ -1,0 +1,5 @@
+mcp_servers:
+  shiprust:
+    url: https://shiprust.com/mcp
+    headers:
+      Authorization: "Bearer ${SHIPRUST_API_KEY}"

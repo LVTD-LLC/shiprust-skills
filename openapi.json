@@ -1,0 +1,624 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "ShipRust API",
+    "version": "1.0.0",
+    "description": "Generate customer-owned Rust SaaS projects. Personal API keys inherit account access. Keep private GPTs private."
+  },
+  "servers": [
+    {
+      "url": "https://shiprust.com"
+    }
+  ],
+  "security": [
+    {
+      "ShipRustKey": []
+    }
+  ],
+  "paths": {
+    "/api/v1/me": {
+      "get": {
+        "operationId": "getAccount",
+        "summary": "Get the account and effective paid access",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "paid": {
+                      "type": "boolean"
+                    },
+                    "created_at": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Request failed; inspect HTTP status and error message",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/options": {
+      "get": {
+        "operationId": "listOptions",
+        "summary": "Discover generator options, defaults and limits",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "template_version": {
+                      "type": "string"
+                    },
+                    "hosts": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "value": {
+                            "type": "string"
+                          },
+                          "label": {
+                            "type": "string"
+                          },
+                          "description": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    },
+                    "defaults": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string",
+                          "minLength": 2,
+                          "maxLength": 64
+                        },
+                        "slug": {
+                          "type": "string",
+                          "maxLength": 40,
+                          "description": "Omit or send empty to derive from name; otherwise lowercase letters, digits and hyphens, starting with a letter."
+                        },
+                        "description": {
+                          "type": "string",
+                          "maxLength": 1000,
+                          "default": ""
+                        },
+                        "host": {
+                          "type": "string",
+                          "enum": [
+                            "none",
+                            "caprover"
+                          ],
+                          "default": "none"
+                        },
+                        "include_blog": {
+                          "type": "boolean",
+                          "default": true
+                        },
+                        "include_docs": {
+                          "type": "boolean",
+                          "default": true
+                        },
+                        "include_stripe": {
+                          "type": "boolean",
+                          "default": true
+                        },
+                        "include_api": {
+                          "type": "boolean",
+                          "default": true
+                        },
+                        "include_mcp": {
+                          "type": "boolean",
+                          "description": "Defaults to include_api. True requires include_api true."
+                        },
+                        "sentry_features": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "enum": [
+                              "sentry-errors",
+                              "sentry-traces",
+                              "sentry-logs",
+                              "sentry-metrics",
+                              "sentry-replay"
+                            ]
+                          },
+                          "description": "Omit to enable all; empty array disables this integration."
+                        },
+                        "posthog_features": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "enum": [
+                              "posthog-web",
+                              "posthog-product",
+                              "posthog-errors",
+                              "posthog-logs",
+                              "posthog-traces"
+                            ]
+                          },
+                          "description": "Omit to enable all; empty array disables this integration."
+                        }
+                      }
+                    },
+                    "limits": {
+                      "type": "object",
+                      "additionalProperties": true
+                    },
+                    "sentry_features": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": true
+                      }
+                    },
+                    "posthog_features": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": true
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Request failed; inspect HTTP status and error message",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/projects": {
+      "get": {
+        "operationId": "listProjects",
+        "summary": "List projects belonging to the account",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "projects": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Project"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Request failed; inspect HTTP status and error message",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "createProject",
+        "summary": "Create a project; paid access required",
+        "x-openai-isConsequential": true,
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateProject"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Project"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Request failed; inspect HTTP status and error message",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/projects/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      ],
+      "get": {
+        "operationId": "getProject",
+        "summary": "Get an owned project; paid access required",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Project"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Request failed; inspect HTTP status and error message",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "deleteProject",
+        "summary": "Permanently remove a saved project record; downloaded code remains",
+        "x-openai-isConsequential": true,
+        "responses": {
+          "204": {
+            "description": "Deleted; empty body"
+          },
+          "default": {
+            "description": "Request failed; inspect HTTP status and error message",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/projects/{id}/download": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      ],
+      "get": {
+        "operationId": "downloadProject",
+        "summary": "Download generated ZIP; requires paid access; client must support binary responses",
+        "responses": {
+          "200": {
+            "description": "Generated source ZIP",
+            "content": {
+              "application/zip": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Request failed; inspect HTTP status and error message",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "ShipRustKey": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "ShipRust personal API key"
+      }
+    },
+    "schemas": {
+      "Project": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 64
+          },
+          "slug": {
+            "type": "string",
+            "maxLength": 40,
+            "description": "Omit or send empty to derive from name; otherwise lowercase letters, digits and hyphens, starting with a letter."
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 1000,
+            "default": ""
+          },
+          "host": {
+            "type": "string",
+            "enum": [
+              "none",
+              "caprover"
+            ],
+            "default": "none"
+          },
+          "include_blog": {
+            "type": "boolean",
+            "default": true
+          },
+          "include_docs": {
+            "type": "boolean",
+            "default": true
+          },
+          "include_stripe": {
+            "type": "boolean",
+            "default": true
+          },
+          "include_api": {
+            "type": "boolean",
+            "default": true
+          },
+          "include_mcp": {
+            "type": "boolean",
+            "description": "Defaults to include_api. True requires include_api true."
+          },
+          "sentry_features": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "sentry-errors",
+                "sentry-traces",
+                "sentry-logs",
+                "sentry-metrics",
+                "sentry-replay"
+              ]
+            },
+            "description": "Omit to enable all; empty array disables this integration."
+          },
+          "posthog_features": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "posthog-web",
+                "posthog-product",
+                "posthog-errors",
+                "posthog-logs",
+                "posthog-traces"
+              ]
+            },
+            "description": "Omit to enable all; empty array disables this integration."
+          },
+          "template_version": {
+            "type": "string"
+          },
+          "created_at": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "download_url": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "slug",
+          "download_url"
+        ]
+      },
+      "CreateProject": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 64
+          },
+          "slug": {
+            "type": "string",
+            "maxLength": 40,
+            "description": "Omit or send empty to derive from name; otherwise lowercase letters, digits and hyphens, starting with a letter."
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 1000,
+            "default": ""
+          },
+          "host": {
+            "type": "string",
+            "enum": [
+              "none",
+              "caprover"
+            ],
+            "default": "none"
+          },
+          "include_blog": {
+            "type": "boolean",
+            "default": true
+          },
+          "include_docs": {
+            "type": "boolean",
+            "default": true
+          },
+          "include_stripe": {
+            "type": "boolean",
+            "default": true
+          },
+          "include_api": {
+            "type": "boolean",
+            "default": true
+          },
+          "include_mcp": {
+            "type": "boolean",
+            "description": "Defaults to include_api. True requires include_api true."
+          },
+          "sentry_features": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "sentry-errors",
+                "sentry-traces",
+                "sentry-logs",
+                "sentry-metrics",
+                "sentry-replay"
+              ]
+            },
+            "description": "Omit to enable all; empty array disables this integration."
+          },
+          "posthog_features": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "posthog-web",
+                "posthog-product",
+                "posthog-errors",
+                "posthog-logs",
+                "posthog-traces"
+              ]
+            },
+            "description": "Omit to enable all; empty array disables this integration."
+          }
+        }
+      }
+    }
+  }
+}

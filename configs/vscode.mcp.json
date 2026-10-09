@@ -1,0 +1,19 @@
+{
+  "servers": {
+    "shiprust": {
+      "type": "http",
+      "url": "https://shiprust.com/mcp",
+      "headers": {
+        "Authorization": "Bearer ${input:shiprust-api-key}"
+      }
+    }
+  },
+  "inputs": [
+    {
+      "type": "promptString",
+      "id": "shiprust-api-key",
+      "description": "ShipRust API key",
+      "password": true
+    }
+  ]
+}

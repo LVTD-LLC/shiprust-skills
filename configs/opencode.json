@@ -1,0 +1,13 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "shiprust": {
+      "type": "remote",
+      "url": "https://shiprust.com/mcp",
+      "oauth": false,
+      "headers": {
+        "Authorization": "Bearer {env:SHIPRUST_API_KEY}"
+      }
+    }
+  }
+}
