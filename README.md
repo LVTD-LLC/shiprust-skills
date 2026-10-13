@@ -6,16 +6,18 @@ account, generate a Rust SaaS project, download it, and help build and deploy it
 
 ## Give this to your agent
 
-> Set up ShipRust for me by following the directions at https://github.com/LVTD-LLC/shiprust-skills. Install the native ShipRust plugin for the AI agent I am using. For Codex, first run `codex plugin marketplace add LVTD-LLC/shiprust-skills` and `codex plugin add shiprust-skills@shiprust`; use the standalone skill and MCP setup only if native plugins are unavailable, and explain why. Use the documented REST API if MCP is unavailable. Use SHIPRUST_API_KEY from my environment, or help me add it securely if it is missing. Verify my account and list the available project options. Do not create or delete projects yet. Never print or commit my API key.
+> Set up ShipRust for me by following https://raw.githubusercontent.com/LVTD-LLC/shiprust-skills/main/skills/setup-shiprust/SKILL.md. My ShipRust API key is: sr_…
 
-Agents: start with **[skills/shiprust/SKILL.md](skills/shiprust/SKILL.md)** and
-**[installation instructions](skills/shiprust/references/agents.md)**. If browsing
+Your [ShipRust dashboard](https://shiprust.com/dashboard) copies this prompt
+with a fresh API key already filled in. Agents: start with
+**[skills/setup-shiprust/SKILL.md](skills/setup-shiprust/SKILL.md)**, then use
+**[skills/shiprust/SKILL.md](skills/shiprust/SKILL.md)** for everything after setup. If browsing
 GitHub fails, fetch the corresponding file from
 `https://raw.githubusercontent.com/LVTD-LLC/shiprust-skills/main/`.
 
-Create your API key in [Settings](https://shiprust.com/settings). Keys are shown
-once; the creation page can copy a prompt with that key for a trusted private
-agent conversation. Prefer the agent's protected environment/secret entry.
+The dashboard's **Copy setup prompt** creates (or replaces) a key named
+"Default"; you can also create and revoke keys in [Settings](https://shiprust.com/settings).
+Keys are shown once. Paste the prompt only into a trusted, private agent conversation. Prefer the agent's protected environment/secret entry.
 A key gives the agent your account's access. Never paste it into public chats.
 
 ## Install
@@ -79,6 +81,8 @@ connector. Plain chat cannot install local tools. See
 
 ## What is included
 
+- A `setup-shiprust` skill that connects an agent to your account from the
+  dashboard's setup prompt.
 - A portable skill covering onboarding, generation, safe downloads, working on
   existing apps, feature configuration, local checks and deployment.
 - Native plugin manifests and secret-free MCP config fragments.
