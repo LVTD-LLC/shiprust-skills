@@ -13,37 +13,12 @@ own app. This public skill does not contain the paid starter source.
 
 ## Set up the current agent
 
-1. Read [agent installation](references/agents.md). Detect the actual client and
-   version. Prefer its native plugin; for Codex, attempt the documented
-   marketplace/plugin commands before considering the standalone skill route.
-   Use the portable fallback only when native plugins are unavailable and
-   explain the specific limitation. A standalone skill is not a plugin. Don't
-   install into every detected agent, overwrite existing settings, disable
-   approvals, or restart a shared service without authorization.
-2. Keep `SHIPRUST_API_KEY` in the current agent's protected environment/secret
-   store. If the user supplied a key in a private setup prompt, use it without
-   echoing it; move it to the runtime's secret store. Never put it in a repo,
-   URL, command argument, screenshot, telemetry, or completion message.
-   If no key is available, direct the user to https://shiprust.com/settings
-   and their client's protected credential entry. Keys are shown once and can
-   be revoked there. Do not invent a key or send it to a third-party proxy.
-3. Native plugins already bundle the MCP server: supply the runtime key and
-   verify that connection, without adding a duplicate standalone server. For
-   the portable fallback, configure `https://shiprust.com/mcp` as Streamable
-   HTTP with `Authorization: Bearer <key>` and merge only the `shiprust` entry.
-   Preserve other servers and operator controls. Config samples contain **references**,
-   not secrets; interpolation syntax is client-specific.
-4. Reload tools/start a fresh session when required. Run `get_account`,
-   `list_options`, and `list_projects` (read-only). Check the returned account
-   privately and report entitlement and tool availability without exposing
-   account identifiers. Never create/delete a project just to test setup.
-5. If MCP is unavailable or blocked, use [REST](references/api.md), including
-   the bundled dependency-free `scripts/shiprust_api.py`. It reads the same
-   environment variable and never follows redirects with credentials.
-   Ordinary ChatGPT chat cannot install local skills or send arbitrary bearer
-   headers: use the documented GPT Actions path or a coding agent.
-6. Report what was actually installed, whether authenticated calls worked,
-   which transport was used, and any specific remaining limitation.
+Follow the [setup-shiprust skill](https://raw.githubusercontent.com/LVTD-LLC/shiprust-skills/main/skills/setup-shiprust/SKILL.md): install the
+native plugin for this agent, keep `SHIPRUST_API_KEY` in its protected secret
+store, connect MCP (or the REST fallback) and verify the account read-only.
+Never print, commit or send the key anywhere except `https://shiprust.com`.
+If no key is available, the user can copy a new setup prompt with a key from
+https://shiprust.com/dashboard.
 
 ## Create and download a project
 

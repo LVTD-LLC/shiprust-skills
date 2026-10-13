@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.1.0 — 2026-10-14
+
+- Add the `setup-shiprust` skill. The shiprust.com dashboard now copies a short prompt that points here and includes a fresh API key; the setup details live in the skill instead of the prompt.
+- The `shiprust` skill's setup section now defers to `setup-shiprust`.
+
 ## 1.0.2 — 2026-10-09
 
 - Make the native Codex plugin the default in the copyable setup prompt, README and agent instructions; require a specific reason for the standalone fallback.
