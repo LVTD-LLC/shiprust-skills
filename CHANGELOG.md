@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.1 — 2026-10-16
+
+- Show the same ShipRust mark used by shiprust.com as the Codex plugin logo and composer icon.
+
 ## 1.1.0 — 2026-10-14
 
 - Add the `setup-shiprust` skill. The shiprust.com dashboard now copies a short prompt that points here and includes a fresh API key; the setup details live in the skill instead of the prompt.

@@ -109,6 +109,10 @@ class ContractTests(unittest.TestCase):
             self.assertEqual(manifest['name'], 'shiprust-skills')
             for key in ['skills', 'mcpServers']:
                 if key in manifest: self.assertTrue((ROOT/name).parent.joinpath(manifest[key]).exists())
+        codex = json.loads((ROOT/'plugins/shiprust-skills/.codex-plugin/plugin.json').read_text())
+        for key in ['logo', 'composerIcon']:
+            self.assertEqual(codex['interface'][key], './assets/shiprust-logo.svg')
+            self.assertTrue((ROOT/'plugins/shiprust-skills'/codex['interface'][key]).is_file())
     def test_relative_markdown_links(self):
         for path in ROOT.rglob('*.md'):
             if '.git' in path.parts: continue
