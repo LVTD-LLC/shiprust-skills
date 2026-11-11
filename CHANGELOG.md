@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.2 — 2026-11-11
+
+- Correct email setup guidance: local HTTP uses console verification codes; HTTPS apps with accounts require Mailgun and a verification key before startup.
+
 ## 1.1.1 — 2026-10-16
 
 - Show the same ShipRust mark used by shiprust.com as the Codex plugin logo and composer icon.

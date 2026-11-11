@@ -23,10 +23,16 @@ http://localhost:3000 and check `/healthz` plus relevant routes.
 
 ## Credentials and optional features
 
-- Signup needs the customer's Mailgun domain, domain-scoped sending key,
-  `MAIL_FROM`, and an independent random `EMAIL_VERIFICATION_KEY` (at least
-  32 characters). With all absent, signup is disabled; partial config can stop
-  startup. The six-character verification flow is mandatory, not a bug to bypass.
+- When accounts are enabled, local HTTP development works without Mailgun:
+  leave all three Mailgun values blank and the console transport logs verification
+  messages, including codes. A blank `EMAIL_VERIFICATION_KEY` uses a development
+  fallback in this mode. The six-character verification flow still applies.
+- An HTTPS `SITE_URL` refuses to start with the console transport. Before deploying
+  an app with accounts, set the customer's `MAILGUN_DOMAIN`, domain-scoped
+  `MAILGUN_SENDING_KEY`, `MAIL_FROM`, and an independent random
+  `EMAIL_VERIFICATION_KEY` (at least 32 characters). Partial Mailgun configuration
+  also fails startup. Missing mail configuration does not merely disable signup;
+  do not bypass verification to make startup succeed.
 - Stripe needs the customer's account, prices and webhook configuration. Follow
   the generated billing guide, use test mode locally, and do not copy ShipRust's
   site purchase/product identifiers. Creating a project never charges Stripe.
